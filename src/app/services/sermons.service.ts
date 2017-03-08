@@ -46,7 +46,7 @@ export class SermonService{
   }
 
   public getArticlesForUrl(feedUrl: string) {
-    var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20title%2Cauthor%2Cenclosure%2Csubtitle%2Csummary%2Cimage%20from%20rss%20where%20url%3D%22'+encodeURIComponent(feedUrl)+'%22&format=json';
+    var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20rss%20where%20url%3D%22'+encodeURIComponent(feedUrl)+'%22&format=json';
     let articles = [];
     return this.http.get(url)
     .map(data => data.json()['query']['results'])
