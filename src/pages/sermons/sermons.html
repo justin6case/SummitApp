@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Sermons
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let article of articles">
+      <ion-thumbnail item-left>
+        <img src={{article.image}}>
+      </ion-thumbnail>
+      <h3>{{article.title}}</h3>
+      <p>{{article.author}}</p>
+      <p>status: {{status}}</p>
+      <button ion-button (click)="playAudio(article)"><ion-icon name="play"></ion-icon></button>&nbsp;
+      <button ion-button (click)="pauseAudio()"><ion-icon name="pause"></ion-icon></button>&nbsp;
+      <button ion-button (click)="stopAudio()"><ion-icon name="square"></ion-icon></button>&nbsp;
+    </ion-item>
+  </ion-list>
+</ion-content>
