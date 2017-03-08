@@ -34,16 +34,14 @@ export class Feed {
 @Injectable()
 export class SermonService{
   http:any;
-  baseUrl: String;
 
   constructor(http:Http){
     this.http = http;
-    this.baseUrl = "http://podcasts.subsplash.com/7f0ac04/podcast.rss";
   }
 
-  getPosts(){
-    return this.http.get(this.baseUrl).map(res => res);
-  }
+  //getPosts(){
+    //return this.http.get(this.baseUrl).map(res => res);
+  //}
 
   public getArticlesForUrl(feedUrl: string) {
     var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20rss%20where%20url%3D%22'+encodeURIComponent(feedUrl)+'%22&format=json';
@@ -59,11 +57,10 @@ export class SermonService{
 
       for (let i = 0; i < objects.length; i++) {
         let item = objects[i];
-        let encUrl = item.enclosure.url;
-        let imagehref = item.image.href;
+        console.log(item.title);
 
-        let newFeedItem = new FeedItem(item.author, encUrl, item.title,
-           item.subtitle, item.summary, imagehref);
+        let newFeedItem = new FeedItem(item.author, item.enclosure.url, item.title,
+           item.subtitle, item.summary, item.image.href);
         articles.push(newFeedItem);
       }
       return articles;
