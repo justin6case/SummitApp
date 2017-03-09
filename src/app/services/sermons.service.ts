@@ -57,7 +57,6 @@ export class SermonService{
 
       for (let i = 0; i < objects.length; i++) {
         let item = objects[i];
-        console.log(item.title);
 
         let newFeedItem = new FeedItem(item.author, item.enclosure.url, item.title,
            item.subtitle, item.summary, item.image.href);

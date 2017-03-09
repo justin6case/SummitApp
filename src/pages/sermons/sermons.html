@@ -10,12 +10,12 @@
       <ion-thumbnail item-left>
         <img src={{article.image}}>
       </ion-thumbnail>
-      <h3>{{article.title}}</h3>
-      <p>{{article.author}}</p>
-      <p>status: {{status}}</p>
-      <button ion-button (click)="playAudio(article)"><ion-icon name="play"></ion-icon></button>&nbsp;
-      <button ion-button (click)="pauseAudio()"><ion-icon name="pause"></ion-icon></button>&nbsp;
-      <button ion-button (click)="stopAudio()"><ion-icon name="square"></ion-icon></button>&nbsp;
+        <h3>{{article.title}}</h3>
+        <p>{{article.link}}<p>
+        <p>{{article.author}}</p>
+        <p>status: {{fileStatus}}</p>
+        <button ion-button large icon-only (click)="playPauseHandler(article)"><ion-icon name="play"></ion-icon></button>&nbsp;
+        <button ion-button large icon-only (click)="stopHandler()"><ion-icon name="square"></ion-icon></button>&nbsp;
     </ion-item>
   </ion-list>
 </ion-content>

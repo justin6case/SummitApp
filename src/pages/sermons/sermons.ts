@@ -12,7 +12,7 @@ export class SermonsPage {
   articles: FeedItem[];
   url;
   file;
-  status;
+  fileStatus: any;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, private sermonService:SermonService) {
 
@@ -22,46 +22,98 @@ export class SermonsPage {
     this.getPosts();
   }
 
+  ngOnExit() {
+    if (this.file) {
+      this.file.stopAudio();
+      this.file.release();
+    }
+  }
+
   getPosts(){
     this.sermonService.getArticlesForUrl('http://podcasts.subsplash.com/7f0ac04/podcast.rss').subscribe(response => {
       this.articles = response;
       });
    }
 
-   playAudio(article) {
-     // this is a new file
-     if (this.url != article.link) {
-        this.stopAudio();
-        try {
-           if (this.file != null)
-           {
-              this.stopAudio();
-              this.file.delete();
-           }
-           this.file = new MediaPlugin(article.link, this.onStatusUpdate);
-        }
-        catch (e) {
-           this.showAlert('Could not open url ' + this.url);
-        }
-     }
-     this.url = article.link;
+   loadAudio(audioFileUrl) {
      try {
-       this.file.play();
+       console.log("Audio file is " + audioFileUrl);
+       this.file = new MediaPlugin(audioFileUrl);
+       this.url == audioFileUrl;
+       this.fileStatus = MediaPlugin.MEDIA_STOPPED;
      }
      catch (e) {
-        this.showAlert('Could not play.');
+       this.showAlert('Error loading file');
      }
    }
 
-   onStatusUpdate(status) {
-      this.status = status;
-      console.log("onStatusUpdate" + status);
-      this.showAlert("onStatusUpdate" + status);
+   playPauseHandler(article) {
+     // file is new, no previous file, load new file, play
+     // file is new, previous file was being played, stop old file, load new file, play
+     // file is not new, file is being played, stopped, or paused
+
+     // file is new, no previous file, load new file, play
+     if (this.url == null) {
+       try {
+         this.loadAudio(article.link);
+       }
+       catch (e) {
+          this.showAlert('Could not play 1.');
+          return;
+       }
+       if (this.url) {
+         this.playAudio();
+       }
+     }
+     // file is new, previous file was being played, stop old file, load new file, play
+     else if (this.url != article.link) {
+        this.file.this.stopAudio();
+        try {
+          this.loadAudio(article.link);
+        }
+        catch (e) {
+           this.showAlert('Could not play 2.');
+           return;
+        }
+        if (this.url) {
+          this.playAudio();
+        }
+     }
+     // file is not new, file is being played, stopped, or paused
+     else if (this.url == article.link) {
+        // file is being played
+        if (this.fileStatus == MediaPlugin.MEDIA_RUNNING) {
+          this.pauseAudio();
+          console.log("pausing" + this.url);
+        }
+        // file is paused or stopped
+        else {
+          this.playAudio();
+          console.log("playing" + this.url);
+        }
+     }
+   }
+
+   stopHandler() {
+     if (this.file) {
+       this.stopAudio();
+     }
+   }
+
+    playAudio() {
+      try {
+        this.file.pause();
+        this.fileStatus = MediaPlugin.MEDIA_RUNNING;
+      }
+      catch (e) {
+        this.showAlert('Could not play 3.');
+      }
     }
 
    pauseAudio() {
      try {
        this.file.pause();
+       this.fileStatus = MediaPlugin.MEDIA_PAUSED;
      }
      catch (e) {
        this.showAlert('Could not pause.');
@@ -71,24 +123,19 @@ export class SermonsPage {
    stopAudio() {
      try {
        this.file.stop();
+       this.fileStatus = MediaPlugin.MEDIA_STOPPED;
      }
      catch (e) {
        this.showAlert('Could not stop.');
      }
-     try {
-       this.file.release();
-     }
-     catch (e) {
-       this.showAlert('Could not release.');
-     }
    }
 
    showAlert(message) {
-  let alert = this.alertCtrl.create({
-    title: 'Error',
-    subTitle: message,
-    buttons: ['OK']
-  });
-  alert.present();
-}
+      let alert = this.alertCtrl.create({
+         title: 'Error',
+         subTitle: message,
+         buttons: ['OK']
+      });
+     alert.present();
+    }
 }
