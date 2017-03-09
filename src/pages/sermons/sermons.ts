@@ -37,6 +37,7 @@ export class SermonsPage {
 
    loadAudio(audioFileUrl) {
      try {
+       console.log("Loading files");
        console.log("Audio file is " + audioFileUrl);
        this.file = new MediaPlugin(audioFileUrl);
        this.url == audioFileUrl;
@@ -54,6 +55,7 @@ export class SermonsPage {
 
      // file is new, no previous file, load new file, play
      if (this.url == null) {
+       console.log("New file");
        try {
          this.loadAudio(article.link);
        }
@@ -61,12 +63,13 @@ export class SermonsPage {
           this.showAlert('Could not play 1.');
           return;
        }
-       if (this.url) {
+       //if (this.url != null) {
          this.playAudio();
-       }
+       //}
      }
      // file is new, previous file was being played, stop old file, load new file, play
      else if (this.url != article.link) {
+       console.log("Switching files")
         this.file.this.stopAudio();
         try {
           this.loadAudio(article.link);
@@ -75,12 +78,13 @@ export class SermonsPage {
            this.showAlert('Could not play 2.');
            return;
         }
-        if (this.url) {
+        //if (this.url != null) {
           this.playAudio();
-        }
+        //}
      }
      // file is not new, file is being played, stopped, or paused
      else if (this.url == article.link) {
+       console.log("play/pause file");
         // file is being played
         if (this.fileStatus == MediaPlugin.MEDIA_RUNNING) {
           this.pauseAudio();
@@ -95,14 +99,14 @@ export class SermonsPage {
    }
 
    stopHandler() {
-     if (this.file) {
+     //if (this.file != null) {
        this.stopAudio();
-     }
+     //}
    }
 
     playAudio() {
       try {
-        this.file.pause();
+        this.file.play();
         this.fileStatus = MediaPlugin.MEDIA_RUNNING;
       }
       catch (e) {
