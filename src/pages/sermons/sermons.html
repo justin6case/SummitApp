@@ -13,7 +13,9 @@
       </ion-thumbnail>
         <h3>{{article.title}}</h3>
         <p>{{article.author}}</p>
-        <button ion-button large icon-only (click)="playPauseHandler(article)"><ion-icon name="play"></ion-icon></button>&nbsp;
+        <button ion-button large icon-only (click)="playPauseHandler(article)">
+          <ion-icon *ngIf="(fileStatus!=2 && fileStatus!=1) || url!=article.link" name="play"></ion-icon>
+          <ion-icon *ngIf="(fileStatus==2 || fileStatus==1) && url==article.link" name="pause"></ion-icon></button>&nbsp;
         <button ion-button large icon-only (click)="stopHandler()"><ion-icon name="square"></ion-icon></button>&nbsp;
     </ion-item>
   </ion-list>
