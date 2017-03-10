@@ -10,12 +10,11 @@ import { MediaPlugin } from 'ionic-native';
 export class SermonsPage {
   items: any;
   articles: FeedItem[];
-  url;
-  file;
-  fileStatus: any;
+  url: string;
+  file: any;
+  fileStatus: number;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, private sermonService:SermonService) {
-
   }
 
   ngOnInit(){
@@ -37,10 +36,9 @@ export class SermonsPage {
 
    loadAudio(audioFileUrl) {
      try {
-       console.log("Loading files");
-       console.log("Audio file is " + audioFileUrl);
-       this.file = new MediaPlugin(audioFileUrl);
-       this.url == audioFileUrl;
+       console.log("Loading audio file " + audioFileUrl);
+       this.file = new MediaPlugin(audioFileUrl, response => {this.fileStatus = response; console.log("Response is " + response);} );
+       this.url = audioFileUrl;
        this.fileStatus = MediaPlugin.MEDIA_STOPPED;
      }
      catch (e) {
@@ -63,14 +61,14 @@ export class SermonsPage {
           this.showAlert('Could not play 1.');
           return;
        }
-       //if (this.url != null) {
+       if (this.url != null) {
          this.playAudio();
-       //}
+       }
      }
      // file is new, previous file was being played, stop old file, load new file, play
      else if (this.url != article.link) {
        console.log("Switching files")
-        this.file.this.stopAudio();
+        this.stopAudio();
         try {
           this.loadAudio(article.link);
         }
@@ -78,15 +76,16 @@ export class SermonsPage {
            this.showAlert('Could not play 2.');
            return;
         }
-        //if (this.url != null) {
+        if (this.url != null) {
           this.playAudio();
-        //}
+        }
      }
      // file is not new, file is being played, stopped, or paused
      else if (this.url == article.link) {
        console.log("play/pause file");
         // file is being played
-        if (this.fileStatus == MediaPlugin.MEDIA_RUNNING) {
+        if (this.fileStatus == MediaPlugin.MEDIA_RUNNING ||
+            this.fileStatus == MediaPlugin.MEDIA_STARTING) {
           this.pauseAudio();
           console.log("pausing" + this.url);
         }
@@ -99,15 +98,14 @@ export class SermonsPage {
    }
 
    stopHandler() {
-     //if (this.file != null) {
+     if (this.file != null) {
        this.stopAudio();
-     //}
+     }
    }
 
     playAudio() {
       try {
         this.file.play();
-        this.fileStatus = MediaPlugin.MEDIA_RUNNING;
       }
       catch (e) {
         this.showAlert('Could not play 3.');
@@ -117,7 +115,6 @@ export class SermonsPage {
    pauseAudio() {
      try {
        this.file.pause();
-       this.fileStatus = MediaPlugin.MEDIA_PAUSED;
      }
      catch (e) {
        this.showAlert('Could not pause.');
@@ -127,7 +124,6 @@ export class SermonsPage {
    stopAudio() {
      try {
        this.file.stop();
-       this.fileStatus = MediaPlugin.MEDIA_STOPPED;
      }
      catch (e) {
        this.showAlert('Could not stop.');

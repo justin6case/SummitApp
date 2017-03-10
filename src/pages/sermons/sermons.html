@@ -2,6 +2,7 @@
   <ion-navbar>
      <ion-title><img src="assets/imgs/Summit-Logo_small.png"></ion-title>
   </ion-navbar>
+  <p>Status: {{fileStatus}}</p>
 </ion-header>
 
 <ion-content padding>
@@ -11,9 +12,7 @@
         <img src={{article.image}}>
       </ion-thumbnail>
         <h3>{{article.title}}</h3>
-        <p>{{article.link}}<p>
         <p>{{article.author}}</p>
-        <p>status: {{fileStatus}}</p>
         <button ion-button large icon-only (click)="playPauseHandler(article)"><ion-icon name="play"></ion-icon></button>&nbsp;
         <button ion-button large icon-only (click)="stopHandler()"><ion-icon name="square"></ion-icon></button>&nbsp;
     </ion-item>
