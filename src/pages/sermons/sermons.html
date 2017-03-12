@@ -7,25 +7,12 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item *ngFor="let article of articles">
+    <ion-item *ngFor="let article of articles" (click)="viewItem(article)">
       <ion-thumbnail item-left>
         <img src={{article.image}}>
       </ion-thumbnail>
         <h3>{{article.title}}</h3>
         <p>{{article.author}}</p>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-               <button ion-button block large icon-only (click)="playPauseHandler(article)">
-               <ion-icon *ngIf="(fileStatus!=2 && fileStatus!=1) || url!=article.link" name="play"></ion-icon>
-               <ion-icon *ngIf="(fileStatus==2 || fileStatus==1) && url==article.link" name="pause"></ion-icon></button>
-            </ion-col>
-            <ion-col>
-               <button ion-button block large icon-only (click)="stopHandler()"><ion-icon name="square"></ion-icon></button>
-            </ion-col>
-          </ion-row>
-      </ion-grid>
-      <button ion-button item-right (click)="viewItem(article)">View</button>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -14,6 +14,18 @@
         {{item.title}}
         <p><a href="{{item.link}}">Link</a></p>
         </ion-card-title>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+               <button ion-button block large icon-only (click)="playPauseHandler(article)">
+               <ion-icon *ngIf="(fileStatus!=2 && fileStatus!=1) || url!=article.link" name="play"></ion-icon>
+               <ion-icon *ngIf="(fileStatus==2 || fileStatus==1) && url==article.link" name="pause"></ion-icon></button>
+            </ion-col>
+            <ion-col>
+               <button ion-button block large icon-only (click)="stopHandler()"><ion-icon name="square"></ion-icon></button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>        
     </ion-card-content>
   </ion-card>
 </ion-content>
