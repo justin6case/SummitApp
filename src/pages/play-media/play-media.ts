@@ -26,7 +26,6 @@ export class PlayMediaPage {
          console.log("Loading audio file " + audioFileUrl);
          this.file = new MediaPlugin(audioFileUrl, response => {this.fileStatus = response; console.log("Response is " + response);} );
          this.url = audioFileUrl;
-         this.fileStatus = MediaPlugin.MEDIA_STOPPED;
        }
        catch (e) {
          this.showAlert('Error loading file');
