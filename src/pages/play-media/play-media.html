@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+     <ion-title><img src="assets/imgs/Summit-Logo_small.png"></ion-title>
+  </ion-navbar>
+  <p>Status: {{fileStatus}}</p>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <img src="{{item.image}}"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{item.title}}
+        <p><a href="{{item.link}}">Link</a></p>
+        </ion-card-title>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

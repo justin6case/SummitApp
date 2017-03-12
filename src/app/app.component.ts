@@ -5,10 +5,11 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { SermonService} from './services/sermons.service';
+import { VideoService} from './services/video.service';
 
 @Component({
   templateUrl: 'app.html',
-  providers: [SermonService]
+  providers: [SermonService, VideoService]
 })
 export class MyApp {
   rootPage = TabsPage;

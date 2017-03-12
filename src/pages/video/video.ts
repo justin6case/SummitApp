@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController } from 'ionic-angular';
-import { SermonService, FeedItem } from '../../app/services/sermons.service';
+import { VideoService, FeedItem } from '../../app/services/video.service';
 import { MediaPlugin } from 'ionic-native';
 import { PlayMediaPage } from '../play-media/play-media';
 
 @Component({
-  selector: 'page-sermons',
-  templateUrl: 'sermons.html'
+  selector: 'page-video',
+  templateUrl: 'video.html'
 })
-export class SermonsPage {
+
+export class VideoPage {
   items: any;
   articles: FeedItem[];
   url: string;
   file: any;
   fileStatus: number;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private sermonService:SermonService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private videoService:VideoService) {
   }
 
   ngOnInit(){
@@ -30,7 +31,7 @@ export class SermonsPage {
   }
 
   getPosts(){
-    this.sermonService.getArticlesForUrl('http://podcasts.subsplash.com/7f0ac04/podcast.rss').subscribe(response => {
+    this.videoService.getArticlesForUrl('https://vimeo.com/thesummitstl/videos/all/rss').subscribe(response => {
       this.articles = response;
       });
    }
