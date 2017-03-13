@@ -55,8 +55,6 @@ export class PlayMediaPage {
       this.paused = MediaPlugin.MEDIA_PAUSED;
       this.stopped = MediaPlugin.MEDIA_STOPPED;
     }
-    console.log(this.platform);
-
   }
 
   ionViewDidLoad() {
@@ -80,6 +78,7 @@ export class PlayMediaPage {
     // file is new, previous file was being played, stop old file, load new file, play
     // file is not new, file is being played, stopped, or paused
 
+    if ( this.item.isVideo == false) {
     // file is new, no previous file, load new file, play
     if (this.url == null) {
       console.log("New file");
@@ -124,6 +123,11 @@ export class PlayMediaPage {
           console.log("playing" + this.url);
         }
       }
+    }
+    //else {
+    //  this.url = article.link;
+    //  VideoPlayer.play(this.url);
+    //}
     }
 
     stopHandler() {

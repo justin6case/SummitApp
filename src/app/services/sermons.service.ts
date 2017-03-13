@@ -9,15 +9,19 @@ export class FeedItem {
   subtitle: string;
   summary: string;
   image: string;
+  description: string;
+  isVideo: boolean;
 
   constructor(author: string, link: string, title: string,
-              subtitle: string, summary: string, image: string) {
+              subtitle: string, summary: string, image: string, description: string) {
     this.author = author;
     this.link = link;
     this.title = title;
     this.subtitle = subtitle;
     this.summary = summary;
     this.image = image;
+    this.description = description;
+    this.isVideo = false;
   }
 }
 
@@ -57,9 +61,8 @@ export class SermonService{
 
       for (let i = 0; i < objects.length; i++) {
         let item = objects[i];
-
         let newFeedItem = new FeedItem(item.author, item.enclosure.url, item.title,
-           item.subtitle, item.summary, item.image.href);
+           item.subtitle, item.summary, item.image.href, item.summary);
         articles.push(newFeedItem);
       }
       return articles;
