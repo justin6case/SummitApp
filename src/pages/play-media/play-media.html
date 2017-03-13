@@ -11,7 +11,7 @@
       <video controls="controls" >
         <source src="{{item.link}}" type="video/mp4"/>
       </video>
-      link: {{item.link}}
+      <p><a href="{{item.link}}" target="_blank">View</a></p>
   </ion-card>
   <ion-card *ngIf="item.isVideo==false">
     <img src="{{item.image}}"/>
